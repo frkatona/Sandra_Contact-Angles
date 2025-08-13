@@ -1,21 +1,8 @@
-# Contact Angle Analysis Script
+# Contact Angle Analysis
 
-This repository contains a Python script (`contactangles.py`) for analyzing and visualizing contact angle measurements from image data. The script reads a CSV file with measurement results, computes summary statistics, performs statistical significance testing, and generates a bar plot with error bars and significance annotations.
-
-Data was acquired using Marco Brugnara's ImageJ plugin, "Contact Angle" (https://imagej.net/ij/plugins/contact-angle.html).
-
-
-## contact angle analysis (theta_ellipse)
 ![contact angles](contactangle.png)
 
-
-## Dependencies
-
-Install dependencies with:
-```sh
-pip install pandas numpy matplotlib scipy
-```
-
+Data was acquired using Marco Brugnara's ImageJ plugin, "Contact Angle" (https://imagej.net/ij/plugins/contact-angle.html).
 
 ## File Structure
 - `contactangles.py`: analysis and plotting script
