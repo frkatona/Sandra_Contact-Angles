@@ -24,7 +24,6 @@ def add_sig_bar(ax, x1, x2, y, h=1.0, text="*", lw=1.5):
     ax.text((x1 + x2) / 2, y + h, text, ha="center", va="bottom", fontsize=20)
 
 def main(csv_path):
-    # --- Load data (tab-delimited) ---
     df = pd.read_csv(csv_path, sep="\t")
 
     # Optional: fix any comma-as-decimal issues just in case
@@ -32,12 +31,15 @@ def main(csv_path):
         return pd.to_numeric(s.astype(str).str.replace(",", ".", regex=False), errors="coerce")
 
     df["theta (ellipse)"] = to_float_series(df["theta (ellipse)"])
+    
+    # Create new column for 180 - theta
+    df["180-theta"] = 180 - df["theta (ellipse)"]
 
     # --- Derive category from 'image' (prefix before first underscore) ---
     df["category"] = df["image"].astype(str).str.split("_").str[0]
 
-    # --- Compute stats ---
-    stats = df.groupby("category")["theta (ellipse)"].agg(["mean", "std"]).reset_index()
+    # --- Compute stats using 180-theta instead of theta ---
+    stats = df.groupby("category")["180-theta"].agg(["mean", "std"]).reset_index()
     categories = list(stats["category"])
     x = np.arange(len(categories))
     means = stats["mean"].to_numpy()
@@ -47,22 +49,19 @@ def main(csv_path):
     fig, ax = plt.subplots(figsize=(8, 5))
     ax.bar(x, means, yerr=stds, capsize=10)
 
-    ax.set_ylabel("Theta (ellipse)", fontsize=20)
+    ax.set_ylabel(r"180° - $\theta_{\mathrm{ellipse}}$", fontsize=20)  # Updated label
     ax.set_xticks(x)
     ax.set_xticklabels(categories, fontsize=16)
     ax.tick_params(axis="y", labelsize=16, direction="out", length=6, width=1.5)
     ax.tick_params(axis="x", direction="out", length=6, width=1.5)
-    ax.grid(False)  # remove grid lines
+    ax.grid(False)
 
-    # --- Significance annotations (Welch's t-tests, alpha=0.05) ---
-    sig_pairs = significance_pairs(df, "category", "theta (ellipse)", alpha=0.05)
-    # Map category -> bar x position
+    # --- Significance annotations using 180-theta ---
+    sig_pairs = significance_pairs(df, "category", "180-theta", alpha=0.05)
     cat_to_x = {cat: xi for xi, cat in enumerate(categories)}
 
-    # Place brackets above bars, stacking if multiple
-    # Start just above the tallest error bar:
     top_y = np.max(means + stds)
-    step = 2.0  # vertical spacing between stacked brackets
+    step = 2.0
     current_level = 0
     for a, b, p in sig_pairs:
         x1, x2 = cat_to_x[a], cat_to_x[b]
@@ -71,8 +70,9 @@ def main(csv_path):
         current_level += 1
 
     plt.tight_layout()
-    plt.savefig("category_theta_ellipse_barplot_significance.png", dpi=300)
+    plt.savefig("category_180-theta_barplot_significance.png", dpi=300)
     plt.show()
+
 
 path = "contactAngles.csv"
 main(path)
