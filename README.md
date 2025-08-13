@@ -4,12 +4,18 @@ This repository contains a Python script (`contactangles.py`) for analyzing and 
 
 Data was acquired using Marco Brugnara's ImageJ plugin, "Contact Angle" (https://imagej.net/ij/plugins/contact-angle.html).
 
+
+## contact angle analysis (theta_ellipse)
+![contact angles](contactangle.png)
+
+
 ## Dependencies
 
 Install dependencies with:
 ```sh
 pip install pandas numpy matplotlib scipy
 ```
+
 
 ## File Structure
 - `contactangles.py`: analysis and plotting script
