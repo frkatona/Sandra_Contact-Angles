@@ -1,7 +1,7 @@
 image	theta (circle)	uncertainty	std dev (circle)	theta (left)	theta (right)	theta (ellipse)	std dev (ellipse)	eccentricity
 laser_1	62.8	1.1	1.69	63.2	60.1	61.6	9.27	0.96
 laser_2	68.1	1.7	1.85	55.7	57.1	56.4	6.09	0.83
-laser_3	"77,5"	0.9	0.7	77.4	74.6	76	5.08	0.96
+laser_3	77.5	0.9	0.7	77.4	74.6	76	5.08	0.96
 laser_4	71.6	2.1	2.23	69	59.4	64.2	4.45	0.86
 laser_5	20.7	58.8	34.68	58.2	69.7	64	9	0.78
 oven_1	50.8	2.2	2.34	45.6	44.4	45	10.93	0.9
